@@ -1,4 +1,4 @@
-package com.garretwilson.text.unicode;
+package com.globalmentor.text.unicode;
 
 import java.io.*;
 import java.lang.ref.Reference;
@@ -7,7 +7,7 @@ import java.util.*;
 
 import static com.globalmentor.java.CharSequences.*;
 
-import com.garretwilson.text.CharacterEncoding;
+import com.globalmentor.text.CharacterEncoding;
 import com.globalmentor.util.Debug;
 
 /**Accesses Unicode named character blocks.

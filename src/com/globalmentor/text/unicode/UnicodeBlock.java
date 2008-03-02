@@ -1,4 +1,4 @@
-package com.garretwilson.text.unicode;
+package com.globalmentor.text.unicode;
 
 /**Describes a named range of Unicode characters.
 @author Garret Wilson

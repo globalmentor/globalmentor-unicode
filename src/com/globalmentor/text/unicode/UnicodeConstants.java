@@ -1,4 +1,4 @@
-package com.garretwilson.text.unicode;
+package com.globalmentor.text.unicode;
 
 /**Constants used in Unicode 3.0.
 @author Garret Wilson

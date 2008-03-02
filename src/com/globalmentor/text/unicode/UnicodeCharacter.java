@@ -1,8 +1,8 @@
-package com.garretwilson.text.unicode;
+package com.globalmentor.text.unicode;
 
 import com.globalmentor.java.Integers;
 
-import static com.garretwilson.text.unicode.UnicodeConstants.*;
+import static com.globalmentor.text.unicode.UnicodeConstants.*;
 
 /**Represents a character in the Unicode database.
 Created for Unicode 3.0.0.

@@ -1,15 +1,16 @@
-package com.garretwilson.text.unicode;
+package com.globalmentor.text.unicode;
 
 import java.io.*;
 import java.lang.ref.*;
 import java.util.*;
 import static java.util.Collections.*;
 import java.util.StringTokenizer;
-import com.garretwilson.text.CharacterEncoding;
 
-import static com.garretwilson.text.unicode.UnicodeConstants.*;
-import static com.garretwilson.text.unicode.UnicodeBlocks.*;
+import static com.globalmentor.text.unicode.UnicodeBlocks.*;
+import static com.globalmentor.text.unicode.UnicodeConstants.*;
+
 import com.globalmentor.java.Integers;
+import com.globalmentor.text.CharacterEncoding;
 import com.globalmentor.util.Debug;
 
 /**Represents the Unicode data in the file <code>UnicodeData.txt</code>.
