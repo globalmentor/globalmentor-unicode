@@ -73,7 +73,7 @@ public class UnicodeBlock implements Comparable<UnicodeBlock> {
 	 * If <code>object</code> is a <code>UnicodeBlock</code>, compares the start and end codes. Otherwise, compares the objects using the superclass
 	 * functionality.
 	 * @param object The object with which to compare this Unicode block; should be a <code>UnicodeBlock</code>
-	 * @return <code>true<code> if this Unicode block equals that specified in
+	 * @return <code>true</code> if this Unicode block equals that specified in
 		<code>object</code>.
 	 * @see #getStartCode
 	 * @see #getEndCode

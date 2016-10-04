@@ -29,7 +29,7 @@ public class UnicodeCharacter implements Comparable<UnicodeCharacter> {
 	/** The code value of the Unicode character. */
 	private int codeValue;
 
-	/** @returns The code value of the Unicode character. */
+	/** @return The code value of the Unicode character. */
 	public int getCodeValue() {
 		return codeValue;
 	}
