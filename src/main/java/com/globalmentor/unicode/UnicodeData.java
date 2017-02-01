@@ -317,7 +317,7 @@ public class UnicodeData {
 						unicodeCharacter.setBidirectionalCategory(fieldValue); //store the bidirectional category
 						break;
 					case FIELD_CHARACTER_DECOMPOSITION_MAPPINGS: {
-						final StringBuffer mappingsBuffer = new StringBuffer(); //create a buffer to hold our mappings
+						final StringBuilder mappingsBuilder = new StringBuilder(); //create a buffer to hold our mappings
 						final StringTokenizer mappingTokenizer = new StringTokenizer(fieldValue, String.valueOf(MAPPING_DELIMITER)); //create an object to tokenize the mappings in this field
 						while(mappingTokenizer.hasMoreTokens()) { //while there are more mappings in this field
 							final String characterDecompositionToken = mappingTokenizer.nextToken(); //get the next character decomposition token
@@ -330,9 +330,9 @@ public class UnicodeData {
 									unicodeCharacter.setCharacterDecompositionTag(characterDecompositionToken); //set the character's tag
 							} else
 								//if this is another mapping in the decomposition
-								mappingsBuffer.append((char)Integer.parseInt(characterDecompositionToken, 16)); //convert the mapping from a hex string to an integer, cast it to a char, and add it to our list of decomposition mappings
+								mappingsBuilder.append((char)Integer.parseInt(characterDecompositionToken, 16)); //convert the mapping from a hex string to an integer, cast it to a char, and add it to our list of decomposition mappings
 						}
-						unicodeCharacter.setCharacterDecompositionMappings(mappingsBuffer.toString()); //convert the mappings to a string and store it in our Unicode character object
+						unicodeCharacter.setCharacterDecompositionMappings(mappingsBuilder.toString()); //convert the mappings to a string and store it in our Unicode character object
 					}
 						break;
 					case FIELD_DECIMAL_DIGIT_VALUE:
@@ -408,56 +408,56 @@ public class UnicodeData {
 	 * @return A Unicode data representation of the Unicode character.
 	 */
 	public static String toUnicodeDataLine(final UnicodeCharacter unicodeCharacter) {
-		final StringBuffer stringBuffer = new StringBuffer(); //create a string buffer
+		final StringBuilder stringBuilder = new StringBuilder(); //create a string buffer
 		final int codeValue = unicodeCharacter.getCodeValue(); //get the code value
 		//append the code value, using six digits if needed
-		stringBuffer.append(Integers.toHexString(codeValue, codeValue <= 0xFFFF ? 4 : 6).toUpperCase());
-		stringBuffer.append(FIELD_DELIMITER); //separate the fields
-		stringBuffer.append(unicodeCharacter.getCharacterName()); //append the character name
-		stringBuffer.append(FIELD_DELIMITER); //separate the fields
-		stringBuffer.append(unicodeCharacter.getGeneralCategory()); //append the general category
-		stringBuffer.append(FIELD_DELIMITER); //separate the fields
-		stringBuffer.append(unicodeCharacter.getCanonicalCombiningClass()); //append the canonical combining class
-		stringBuffer.append(FIELD_DELIMITER); //separate the fields
-		stringBuffer.append(unicodeCharacter.getBidirectionalCategory()); //append the bidirectional category
-		stringBuffer.append(FIELD_DELIMITER); //separate the fields
+		stringBuilder.append(Integers.toHexString(codeValue, codeValue <= 0xFFFF ? 4 : 6).toUpperCase());
+		stringBuilder.append(FIELD_DELIMITER); //separate the fields
+		stringBuilder.append(unicodeCharacter.getCharacterName()); //append the character name
+		stringBuilder.append(FIELD_DELIMITER); //separate the fields
+		stringBuilder.append(unicodeCharacter.getGeneralCategory()); //append the general category
+		stringBuilder.append(FIELD_DELIMITER); //separate the fields
+		stringBuilder.append(unicodeCharacter.getCanonicalCombiningClass()); //append the canonical combining class
+		stringBuilder.append(FIELD_DELIMITER); //separate the fields
+		stringBuilder.append(unicodeCharacter.getBidirectionalCategory()); //append the bidirectional category
+		stringBuilder.append(FIELD_DELIMITER); //separate the fields
 		if(unicodeCharacter.getCharacterDecompositionTag().length() > 0) //if there is a decomposition tag
-			stringBuffer.append(unicodeCharacter.getCharacterDecompositionTag() + MAPPING_DELIMITER); //append the decomposition tag
+			stringBuilder.append(unicodeCharacter.getCharacterDecompositionTag() + MAPPING_DELIMITER); //append the decomposition tag
 		for(int i = 0; i < unicodeCharacter.getCharacterDecompositionMappings().length(); ++i) { //look at each of the decomposition mappings
-			stringBuffer.append(Integers.toHexString(unicodeCharacter.getCharacterDecompositionMappings().charAt(i), 4).toUpperCase()); //append the hex code for this decomposition mapping
+			stringBuilder.append(Integers.toHexString(unicodeCharacter.getCharacterDecompositionMappings().charAt(i), 4).toUpperCase()); //append the hex code for this decomposition mapping
 			if(i < unicodeCharacter.getCharacterDecompositionMappings().length() - 1) //if this isn't the last mapping
-				stringBuffer.append(MAPPING_DELIMITER); //append the decomposition tag mapping delimiter to separate the mappings
+				stringBuilder.append(MAPPING_DELIMITER); //append the decomposition tag mapping delimiter to separate the mappings
 		}
-		stringBuffer.append(FIELD_DELIMITER); //separate the fields
+		stringBuilder.append(FIELD_DELIMITER); //separate the fields
 		if(unicodeCharacter.getDecimalDigitValue() != -1) //if there is a decimal digit value
-			stringBuffer.append(unicodeCharacter.getDecimalDigitValue()); //append the decimal digit value
-		stringBuffer.append(FIELD_DELIMITER); //separate the fields
+			stringBuilder.append(unicodeCharacter.getDecimalDigitValue()); //append the decimal digit value
+		stringBuilder.append(FIELD_DELIMITER); //separate the fields
 		if(unicodeCharacter.getDigitValue() != -1) //if there is a digit value
-			stringBuffer.append(unicodeCharacter.getDigitValue()); //append the digit value
-		stringBuffer.append(FIELD_DELIMITER); //separate the fields
+			stringBuilder.append(unicodeCharacter.getDigitValue()); //append the digit value
+		stringBuilder.append(FIELD_DELIMITER); //separate the fields
 		if(unicodeCharacter.getNumericValue() != -1) { //if there is a numeric value
 			if(unicodeCharacter.isNumericValueFraction()) //if the numeric value is a fraction
-				stringBuffer.append(Integer.toString(unicodeCharacter.getNumericValueNumerator()) + FRACTION_DIVIDER + unicodeCharacter.getNumericValueDenominator()); //append the fraction form of the numeric value
+				stringBuilder.append(Integer.toString(unicodeCharacter.getNumericValueNumerator()) + FRACTION_DIVIDER + unicodeCharacter.getNumericValueDenominator()); //append the fraction form of the numeric value
 			else
 				//if the numeric value is not a fraction
-				stringBuffer.append(Integer.toString(unicodeCharacter.getNumericValueNumerator())); //append the numeric value
+				stringBuilder.append(Integer.toString(unicodeCharacter.getNumericValueNumerator())); //append the numeric value
 		}
-		stringBuffer.append(FIELD_DELIMITER); //separate the fields
-		stringBuffer.append(unicodeCharacter.isMirrored() ? MIRRORED_YES : MIRRORED_NO); //append the mirrored status
-		stringBuffer.append(FIELD_DELIMITER); //separate the fields
-		stringBuffer.append(unicodeCharacter.getUnicode10Name()); //append the Unicode 1.0 name, if present
-		stringBuffer.append(FIELD_DELIMITER); //separate the fields
-		stringBuffer.append(unicodeCharacter.getISO10646Comment()); //append the ISO 10646 comment, if present
-		stringBuffer.append(FIELD_DELIMITER); //separate the fields
+		stringBuilder.append(FIELD_DELIMITER); //separate the fields
+		stringBuilder.append(unicodeCharacter.isMirrored() ? MIRRORED_YES : MIRRORED_NO); //append the mirrored status
+		stringBuilder.append(FIELD_DELIMITER); //separate the fields
+		stringBuilder.append(unicodeCharacter.getUnicode10Name()); //append the Unicode 1.0 name, if present
+		stringBuilder.append(FIELD_DELIMITER); //separate the fields
+		stringBuilder.append(unicodeCharacter.getISO10646Comment()); //append the ISO 10646 comment, if present
+		stringBuilder.append(FIELD_DELIMITER); //separate the fields
 		if(unicodeCharacter.getUppercaseMapping() != 0) //if there is an uppercase mapping
-			stringBuffer.append(Integers.toHexString(unicodeCharacter.getUppercaseMapping(), 4).toUpperCase()); //append the uppercase mapping
-		stringBuffer.append(FIELD_DELIMITER); //separate the fields
+			stringBuilder.append(Integers.toHexString(unicodeCharacter.getUppercaseMapping(), 4).toUpperCase()); //append the uppercase mapping
+		stringBuilder.append(FIELD_DELIMITER); //separate the fields
 		if(unicodeCharacter.getLowercaseMapping() != 0) //if there is an lowercase mapping
-			stringBuffer.append(Integers.toHexString(unicodeCharacter.getLowercaseMapping(), 4).toUpperCase()); //append the lowercase mapping
-		stringBuffer.append(FIELD_DELIMITER); //separate the fields
+			stringBuilder.append(Integers.toHexString(unicodeCharacter.getLowercaseMapping(), 4).toUpperCase()); //append the lowercase mapping
+		stringBuilder.append(FIELD_DELIMITER); //separate the fields
 		if(unicodeCharacter.getTitlecaseMapping() != 0) //if there is an titlecase mapping
-			stringBuffer.append(Integers.toHexString(unicodeCharacter.getTitlecaseMapping(), 4).toUpperCase()); //append the titlecase mapping
-		return stringBuffer.toString(); //convert the buffer to a string and return it
+			stringBuilder.append(Integers.toHexString(unicodeCharacter.getTitlecaseMapping(), 4).toUpperCase()); //append the titlecase mapping
+		return stringBuilder.toString(); //convert the buffer to a string and return it
 	}
 
 }
