@@ -85,11 +85,8 @@ public class UnicodeBlocks {
 	 * @throws IOException Thrown if there was an error parsing the blocks.
 	 */
 	protected static SortedSet<UnicodeBlock> load() throws IOException {
-		final Reader reader = getBlocksReader(); //get a reader to our data
-		try {
+		try (final Reader reader = getBlocksReader()) { //get a reader to our data
 			return parse(reader); //parse and return the Unicode blocks
-		} finally {
-			reader.close(); //always close our reader
 		}
 	}
 

@@ -201,8 +201,7 @@ public class UnicodeData {
 	 * @throws IOException Thrown if there was an error parsing the Unicode data.
 	 */
 	protected static List<UnicodeCharacter> load(final int firstCodeValue, final int lastCodeValue) throws IOException {
-		final Reader reader = getUnicodeDataReader(); //get a reader to our data
-		try {
+		try (final Reader reader = getUnicodeDataReader()) { //get a reader to our data
 			final List<UnicodeCharacter> unicodeCharacterList = parse(reader, firstCodeValue, lastCodeValue); //parse the Unicode data from the reader
 			sort(unicodeCharacterList); //make sure the list is sorted
 			final Set<Integer> unassignedCodeSet = getUnassignedCodeSet(); //get the set of unassigned codes
@@ -220,8 +219,6 @@ public class UnicodeData {
 				unassignedCodeSet.add(Integer.valueOf(codeValue)); //add the skipped code value to the set of unassigned code points
 			}
 			return unicodeCharacterList; //return the list of Unicode characters we loaded
-		} finally {
-			reader.close(); //always close our reader
 		}
 	}
 
